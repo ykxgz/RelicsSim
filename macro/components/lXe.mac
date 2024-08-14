@@ -1,0 +1,13 @@
+/control/getEnv ISOTOPEFILE
+#/control/echo {ISOTOPEFILE}
+/control/execute {ISOTOPEFILE}
+
+/cgs/ang/type iso
+
+/cgs/conf/material LXe
+
+# Using inner confined volume
+/cgs/shape Cylinder
+/cgs/radius 40 cm
+/cgs/halfz 50 cm
+/cgs/centre 0 0 0 cm

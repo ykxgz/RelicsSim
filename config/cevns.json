@@ -1,0 +1,789 @@
+{
+	"run": 0,
+	"geometry": {
+		"material": {
+			"name": "Material"
+		},
+		"detectors": [
+			{
+				"type": "World",
+				"name": "World",
+				"parameters": {
+					"half_x": "500*cm",
+					"half_y": "500*cm",
+					"half_z": "500*cm"
+				}
+			},
+			{
+				"type": "Cuboid",
+				"name": "Fe",
+				"parent": "World",
+				"parameters": {
+					"soliname": "FeSolid",
+					"logivol": "FeLog",
+					"physvol": "Fe",
+					"width_x": "701.0*cm",
+					"width_y": "701.0*cm",
+					"width_z": "701.0*cm",
+					"material": "SS304LSteel"
+				}
+			},
+			{
+				"type": "Cuboid",
+				"name": "Concrete",
+				"parent": "World",
+				"parameters": {
+					"soliname": "ConcreteSolid",
+					"logivol": "ConcreteLog",
+					"physvol": "Concrete",
+					"width_x": "701.0*cm",
+					"width_y": "701.0*cm",
+					"width_z": "100*cm",
+					"material": "concrete",
+					"shift_z": "-400.5*cm"
+				}
+			},
+			{
+				"type": "Cuboid",
+				"name": "Water",
+				"parent": "Fe",
+				"parameters": {
+					"soliname": "WaterSolid",
+					"logivol": "WaterLog",
+					"physvol": "Water",
+					"width_x": "700*cm",
+					"width_y": "700*cm",
+					"width_z": "700*cm",
+					"material": "G4_WATER"
+				}
+			},
+			{
+				"type": "Cuboid",
+				"name": "Plastic",
+				"parent": "Water",
+				"parameters": {
+					"soliname": "PlasticSolid",
+					"logivol": "PlasticLog",
+					"physvol": "Plastic",
+					"width_x": "110*cm",
+					"width_y": "110*cm",
+					"width_z": "110*cm",
+					"material": "G4_POLYETHYLENE",
+					"shift_x": "0.0*cm",
+					"shift_z": "-150.0*cm",
+					"sendname": "Plastic"
+				}
+			},
+			{
+				"type": "Cuboid",
+				"name": "Water_in",
+				"parent": "Plastic",
+				"parameters": {
+					"soliname": "Water_inSolid",
+					"logivol": "Water_inLog",
+					"physvol": "Water_in",
+					"width_x": "100*cm",
+					"width_y": "100*cm",
+					"width_z": "100*cm",
+					"material": "G4_WATER"
+				}
+			},
+			{
+				"type": "Polyhedra",
+				"name": "OuterContainer",
+				"parent": "Water_in",
+				"parameters": {
+					"soliname": "OuterContainerSolid",
+					"logivol": "OuterContainerLog",
+					"physvol": "OuterContainer",
+					"source": "data/OuterContainerRZ.txt",
+					"material": "SS304LSteel"
+				}
+			},
+			{
+				"type": "Polyhedra",
+				"name": "Vacuum",
+				"parent": "OuterContainer",
+				"parameters": {
+					"soliname": "VacuumSolid",
+					"logivol": "VacuumLog",
+					"physvol": "Vacuum",
+					"source": "data/VacuumRZ.txt",
+					"material": "Vacuum"
+				}
+			},
+			{
+				"type": "Polyhedra",
+				"name": "InnerContainer",
+				"parent": "Vacuum",
+				"parameters": {
+					"soliname": "InnerContainerSolid",
+					"logivol": "InnerContainerLog",
+					"physvol": "InnerContainer",
+					"source": "data/InnerContainerRZ.txt",
+					"material": "SS304LSteel"
+				}
+			},
+			{
+				"type": "Polyhedra",
+				"name": "InnerTeflon",
+				"parent": "InnerContainer",
+				"parameters": {
+					"soliname": "InnerTeflonSolid",
+					"logivol": "InnerTeflonLog",
+					"physvol": "InnerTeflon",
+					"source": "data/InnerTeflonRZ.txt",
+					"material": "Teflon",
+					"surface": "0"
+				}
+			},
+			{
+				"type": "Polyhedra",
+				"name": "OuterGasXe",
+				"parent": "InnerTeflon",
+				"parameters": {
+					"soliname": "OuterGasXeSolid",
+					"logivol": "OuterGasXeLog",
+					"physvol": "OuterGasXe",
+					"source": "data/OuterGasXeRZ.txt",
+					"material": "GXe",
+					"shift_z": "-1.0*cm"
+				}
+			},
+			{
+				"type": "Polyhedra",
+				"name": "XenonVeto",
+				"parent": "InnerTeflon",
+				"parameters": {
+					"soliname": "XenonVetoSolid",
+					"logivol": "XenonVetoLog",
+					"physvol": "XenonVeto",
+					"source": "data/XenonVetoRZ.txt",
+					"material": "LXe",
+					"shift_z": "-1.0*cm",
+					"sendname": "XenonVeto"
+				}
+			},
+			{
+				"type": "HolesBoard",
+				"name": "BellSS",
+				"parent": "XenonVeto",
+				"parameters": {
+					"soliname": "BellSSSolid",
+					"logivol": "BellSSLog",
+					"physvol": "BellSS",
+					"radius": "18*cm",
+					"height": "0.5*cm",
+					"width_x": "2.4*cm",
+					"sides": "0",
+					"material": "SS304LSteel",
+					"shift_z": "19.5*cm",
+					"source": "data/XeVetoInBell.txt",
+					"surface": "0"
+				}
+			},
+			{
+				"type": "HolesBoard",
+				"name": "BellTeflonTopCoating",
+				"parent": "XenonVeto",
+				"parameters": {
+					"soliname": "BellTeflonTopCoatingSolid",
+					"logivol": "BellTeflonTopCoatingLog",
+					"physvol": "BellTeflonTopCoating",
+					"radius": "18*cm",
+					"height": "0.25*cm",
+					"width_x": "2.4*cm",
+					"sides": "0",
+					"material": "Teflon",
+					"shift_z": "19.125*cm",
+					"source": "data/XeVetoInBell.txt",
+					"surface": "0"
+				}
+			},
+			{
+				"type": "HolesBoard",
+				"name": "BellTeflonBotCoating",
+				"parent": "XenonVeto",
+				"parameters": {
+					"soliname": "BellTeflonBotCoatingSolid",
+					"logivol": "BellTeflonBotCoatingLog",
+					"physvol": "BellTeflonBotCoating",
+					"radius": "18*cm",
+					"height": "0.25*cm",
+					"width_x": "2.4*cm",
+					"sides": "0",
+					"material": "Teflon",
+					"shift_z": "19.875*cm",
+					"source": "data/XeVetoInBell.txt",
+					"surface": "0"
+				}
+			},
+			{
+				"type": "Prism",
+				"name": "InnerGasXe",
+				"parent": "XenonVeto",
+				"parameters": {
+					"soliname": "InnerGasXeSolid",
+					"logivol": "InnerGasXeLog",
+					"physvol": "InnerGasXe",
+					"outer_radius": "14*cm",
+					"sides": "12",
+					"height": "8*cm",
+					"material": "GXe",
+					"shift_z": "15.0*cm"
+				}
+			},
+			{
+				"type": "Prism",
+				"name": "XenonDetector",
+				"parent": "XenonVeto",
+				"parameters": {
+					"soliname": "XenonDetectorSolid",
+					"logivol": "XenonDetectorLog",
+					"physvol": "XenonDetector",
+					"outer_radius": "14*cm",
+					"sides": "12",
+					"height": "31*cm",
+					"material": "LXe",
+					"shift_z": "-4.5*cm",
+					"sendname": "XenonDetector"
+				}
+			},
+			{
+				"type": "Prism",
+				"name": "BotTeflonCoating",
+				"parent": "XenonVeto",
+				"parameters": {
+					"soliname": "BotTeflonCoatingSolid",
+					"logivol": "BotTeflonCoatingLog",
+					"physvol": "BotTeflonCoating",
+					"outer_radius": "14*cm",
+					"sides": "12",
+					"height": "0.25*cm",
+					"material": "Teflon",
+					"shift_z": "-20.125*cm",
+					"surface": "0"
+				}
+			},
+			{
+				"type": "HolesBoard",
+				"name": "TopPMTTeflon",
+				"parent": "InnerGasXe",
+				"parameters": {
+					"soliname": "TopPMTTeflonSolid",
+					"logivol": "TopPMTTeflonLog",
+					"physvol": "TopPMTTeflon",
+					"radius": "14*cm",
+					"sides": "12",
+					"height": "0.25*cm",
+					"width_x": "2.4*cm",
+					"material": "Teflon",
+					"shift_z": "-1.4249999999999998*cm",
+					"source": "data/XeInTopPMTTeflon.txt",
+					"surface": "0"
+				}
+			},
+			{
+				"type": "HolesBoard",
+				"name": "BotPMTTeflon",
+				"parent": "XenonDetector",
+				"parameters": {
+					"soliname": "BotPMTTeflonSolid",
+					"logivol": "BotPMTTeflonLog",
+					"physvol": "BotPMTTeflon",
+					"radius": "14*cm",
+					"sides": "12",
+					"height": "0.25*cm",
+					"width_x": "2.4*cm",
+					"material": "Teflon",
+					"shift_z": "-12.075*cm",
+					"source": "data/XeInBotPMTTeflon.txt",
+					"surface": "0"
+				}
+			},
+			{
+				"type": "Array",
+				"name": "tR8520",
+				"parent": "InnerGasXe",
+				"parameters": {
+					"soliname": "R8520Solid",
+					"logivol": "R8520Log",
+					"physvol": "R8520",
+					"objects": "PMTsR8520",
+					"source": "data/topPMTs.txt"
+				}
+			},
+			{
+				"type": "Array",
+				"name": "bR8520",
+				"parent": "XenonDetector",
+				"parameters": {
+					"soliname": "R8520Solid",
+					"logivol": "R8520Log",
+					"physvol": "R8520",
+					"objects": "PMTsR8520",
+					"source": "data/botPMTs.txt"
+				}
+			},
+			{
+				"type": "Array",
+				"name": "downtopvR8520",
+				"parent": "XenonVeto",
+				"parameters": {
+					"soliname": "R8520Solid",
+					"logivol": "R8520Log",
+					"physvol": "R8520",
+					"objects": "PMTsR8520",
+					"source": "data/downtopVetoPMTs.txt"
+				}
+			},
+			{
+				"type": "Array",
+				"name": "upbotvR8520",
+				"parent": "XenonVeto",
+				"parameters": {
+					"soliname": "R8520Solid",
+					"logivol": "R8520Log",
+					"physvol": "R8520",
+					"objects": "PMTsR8520",
+					"source": "data/upbotVetoPMTs.txt"
+				}
+			},
+			{
+				"type": "Array",
+				"name": "midtopvR8520",
+				"parent": "XenonVeto",
+				"parameters": {
+					"soliname": "R8520Solid",
+					"logivol": "R8520Log",
+					"physvol": "R8520",
+					"objects": "PMTsR8520",
+					"source": "data/midtopVetoPMTs.txt"
+				}
+			},
+			{
+				"type": "Array",
+				"name": "midbotvR8520",
+				"parent": "XenonVeto",
+				"parameters": {
+					"soliname": "R8520Solid",
+					"logivol": "R8520Log",
+					"physvol": "R8520",
+					"objects": "PMTsR8520",
+					"source": "data/midbotVetoPMTs.txt"
+				}
+			},
+			{
+				"type": "MeshGrid",
+				"name": "BottomScreening",
+				"parent": "XenonDetector",
+				"parameters": {
+					"soliname": "BottomScreeningSolid",
+					"logivol": "BottomScreeningLog",
+					"physvol": "BottomScreening",
+					"shift_z": "-11.7*cm",
+					"wire_pitch": "1.0*cm",
+					"radius": "14*cm",
+					"sides": "12",
+					"material": "SS304LSteel",
+					"surface": "0"
+				}
+			},
+			{
+				"type": "MeshGrid",
+				"name": "Cathode",
+				"parent": "XenonDetector",
+				"parameters": {
+					"soliname": "CathodeSolid",
+					"logivol": "CathodeLog",
+					"physvol": "Cathode",
+					"shift_z": "-8.7*cm",
+					"radius": "14*cm",
+					"sides": "12",
+					"material": "SS304LSteel",
+					"surface": "0"
+				}
+			},
+			{
+				"type": "MeshGrid",
+				"name": "Gate",
+				"parent": "XenonDetector",
+				"parameters": {
+					"soliname": "GateSolid",
+					"logivol": "GateLog",
+					"physvol": "Gate",
+					"shift_z": "15.0*cm",
+					"radius": "14*cm",
+					"sides": "12",
+					"material": "SS304LSteel",
+					"surface": "0"
+				}
+			},
+			{
+				"type": "MeshGrid",
+				"name": "Anode",
+				"parent": "InnerGasXe",
+				"parameters": {
+					"soliname": "AnodeSolid",
+					"logivol": "AnodeLog",
+					"physvol": "Anode",
+					"shift_z": "-3.5*cm",
+					"radius": "14*cm",
+					"sides": "12",
+					"material": "SS304LSteel",
+					"surface": "0"
+				}
+			},
+			{
+				"type": "Prism",
+				"name": "XeSideInnerTeflon0",
+				"parent": "XenonVeto",
+				"parameters": {
+					"soliname": "XeSideInnerTeflon0Solid",
+					"logivol": "XeSideInnerTeflon0Log",
+					"physvol": "XeSideInnerTeflon0",
+					"outer_radius": "14.25*cm",
+					"inner_radius": "14*cm",
+					"material": "Teflon",
+					"sides": "12",
+					"height": "3.5500000000000007*cm",
+					"shift_z": "-18.225*cm",
+					"surface": "0"
+				}
+			},
+			{
+				"type": "Prism",
+				"name": "ShapingRings0",
+				"parent": "XenonVeto",
+				"parameters": {
+					"soliname": "ShapingRings0Solid",
+					"logivol": "ShapingRings0Log",
+					"physvol": "ShapingRings0",
+					"outer_radius": "14.75*cm",
+					"inner_radius": "14.25*cm",
+					"material": "Copper",
+					"sides": "12",
+					"height": "3.5500000000000007*cm",
+					"shift_z": "-18.225*cm",
+					"surface": "0"
+				}
+			},
+			{
+				"type": "Prism",
+				"name": "XeSideOuterTeflon0",
+				"parent": "XenonVeto",
+				"parameters": {
+					"soliname": "XeSideOuterTeflon0Solid",
+					"logivol": "XeSideOuterTeflon0Log",
+					"physvol": "XeSideOuterTeflon0",
+					"outer_radius": "15.0*cm",
+					"inner_radius": "14.75*cm",
+					"material": "Teflon",
+					"sides": "12",
+					"height": "3.5500000000000007*cm",
+					"shift_z": "-18.225*cm",
+					"surface": "0"
+				}
+			},
+			{
+				"type": "Prism",
+				"name": "XeSideInnerTeflon1",
+				"parent": "XenonVeto",
+				"parameters": {
+					"soliname": "XeSideInnerTeflon1Solid",
+					"logivol": "XeSideInnerTeflon1Log",
+					"physvol": "XeSideInnerTeflon1",
+					"outer_radius": "14.25*cm",
+					"inner_radius": "14*cm",
+					"material": "Teflon",
+					"sides": "12",
+					"height": "2.5*cm",
+					"shift_z": "-14.7*cm",
+					"surface": "0"
+				}
+			},
+			{
+				"type": "Prism",
+				"name": "ShapingRings1",
+				"parent": "XenonVeto",
+				"parameters": {
+					"soliname": "ShapingRings1Solid",
+					"logivol": "ShapingRings1Log",
+					"physvol": "ShapingRings1",
+					"outer_radius": "14.75*cm",
+					"inner_radius": "14.25*cm",
+					"material": "Copper",
+					"sides": "12",
+					"height": "2.5*cm",
+					"shift_z": "-14.7*cm",
+					"surface": "0"
+				}
+			},
+			{
+				"type": "Prism",
+				"name": "XeSideOuterTeflon1",
+				"parent": "XenonVeto",
+				"parameters": {
+					"soliname": "XeSideOuterTeflon1Solid",
+					"logivol": "XeSideOuterTeflon1Log",
+					"physvol": "XeSideOuterTeflon1",
+					"outer_radius": "15.0*cm",
+					"inner_radius": "14.75*cm",
+					"material": "Teflon",
+					"sides": "12",
+					"height": "2.5*cm",
+					"shift_z": "-14.7*cm",
+					"surface": "0"
+				}
+			},
+			{
+				"type": "Prism",
+				"name": "XeSideInnerTeflon2",
+				"parent": "XenonVeto",
+				"parameters": {
+					"soliname": "XeSideInnerTeflon2Solid",
+					"logivol": "XeSideInnerTeflon2Log",
+					"physvol": "XeSideInnerTeflon2",
+					"outer_radius": "14.25*cm",
+					"inner_radius": "14*cm",
+					"material": "Teflon",
+					"sides": "12",
+					"height": "23.2*cm",
+					"shift_z": "-1.3499999999999996*cm",
+					"surface": "0"
+				}
+			},
+			{
+				"type": "Prism",
+				"name": "ShapingRings2",
+				"parent": "XenonVeto",
+				"parameters": {
+					"soliname": "ShapingRings2Solid",
+					"logivol": "ShapingRings2Log",
+					"physvol": "ShapingRings2",
+					"outer_radius": "14.75*cm",
+					"inner_radius": "14.25*cm",
+					"material": "Copper",
+					"sides": "12",
+					"height": "23.2*cm",
+					"shift_z": "-1.3499999999999996*cm",
+					"surface": "0"
+				}
+			},
+			{
+				"type": "Prism",
+				"name": "XeSideOuterTeflon2",
+				"parent": "XenonVeto",
+				"parameters": {
+					"soliname": "XeSideOuterTeflon2Solid",
+					"logivol": "XeSideOuterTeflon2Log",
+					"physvol": "XeSideOuterTeflon2",
+					"outer_radius": "15.0*cm",
+					"inner_radius": "14.75*cm",
+					"material": "Teflon",
+					"sides": "12",
+					"height": "23.2*cm",
+					"shift_z": "-1.3499999999999996*cm",
+					"surface": "0"
+				}
+			},
+			{
+				"type": "Prism",
+				"name": "XeSideInnerTeflon3",
+				"parent": "XenonVeto",
+				"parameters": {
+					"soliname": "XeSideInnerTeflon3Solid",
+					"logivol": "XeSideInnerTeflon3Log",
+					"physvol": "XeSideInnerTeflon3",
+					"outer_radius": "14.25*cm",
+					"inner_radius": "14*cm",
+					"material": "Teflon",
+					"sides": "12",
+					"height": "0.5*cm",
+					"shift_z": "11.0*cm",
+					"surface": "0"
+				}
+			},
+			{
+				"type": "Prism",
+				"name": "ShapingRings3",
+				"parent": "XenonVeto",
+				"parameters": {
+					"soliname": "ShapingRings3Solid",
+					"logivol": "ShapingRings3Log",
+					"physvol": "ShapingRings3",
+					"outer_radius": "14.75*cm",
+					"inner_radius": "14.25*cm",
+					"material": "Copper",
+					"sides": "12",
+					"height": "0.5*cm",
+					"shift_z": "11.0*cm",
+					"surface": "0"
+				}
+			},
+			{
+				"type": "Prism",
+				"name": "XeSideOuterTeflon3",
+				"parent": "XenonVeto",
+				"parameters": {
+					"soliname": "XeSideOuterTeflon3Solid",
+					"logivol": "XeSideOuterTeflon3Log",
+					"physvol": "XeSideOuterTeflon3",
+					"outer_radius": "15.0*cm",
+					"inner_radius": "14.75*cm",
+					"material": "Teflon",
+					"sides": "12",
+					"height": "0.5*cm",
+					"shift_z": "11.0*cm",
+					"surface": "0"
+				}
+			},
+			{
+				"type": "Prism",
+				"name": "XeSideInnerTeflon4",
+				"parent": "XenonVeto",
+				"parameters": {
+					"soliname": "XeSideInnerTeflon4Solid",
+					"logivol": "XeSideInnerTeflon4Log",
+					"physvol": "XeSideInnerTeflon4",
+					"outer_radius": "14.25*cm",
+					"inner_radius": "14*cm",
+					"material": "Teflon",
+					"sides": "12",
+					"height": "7.25*cm",
+					"shift_z": "15.375*cm",
+					"surface": "0"
+				}
+			},
+			{
+				"type": "Prism",
+				"name": "ShapingRings4",
+				"parent": "XenonVeto",
+				"parameters": {
+					"soliname": "ShapingRings4Solid",
+					"logivol": "ShapingRings4Log",
+					"physvol": "ShapingRings4",
+					"outer_radius": "14.75*cm",
+					"inner_radius": "14.25*cm",
+					"material": "Copper",
+					"sides": "12",
+					"height": "7.25*cm",
+					"shift_z": "15.375*cm",
+					"surface": "0"
+				}
+			},
+			{
+				"type": "Prism",
+				"name": "XeSideOuterTeflon4",
+				"parent": "XenonVeto",
+				"parameters": {
+					"soliname": "XeSideOuterTeflon4Solid",
+					"logivol": "XeSideOuterTeflon4Log",
+					"physvol": "XeSideOuterTeflon4",
+					"outer_radius": "15.0*cm",
+					"inner_radius": "14.75*cm",
+					"material": "Teflon",
+					"sides": "12",
+					"height": "7.25*cm",
+					"shift_z": "15.375*cm",
+					"surface": "0"
+				}
+			},
+			{
+				"type": "Prism",
+				"name": "ElectrodeRing0",
+				"parent": "XenonVeto",
+				"parameters": {
+					"soliname": "ElectrodeRing0Solid",
+					"logivol": "ElectrodeRing0Log",
+					"physvol": "ElectrodeRing0",
+					"outer_radius": "15.0*cm",
+					"inner_radius": "14*cm",
+					"sides": "12",
+					"material": "SS304LSteel",
+					"surface": "0",
+					"height": "0.5000000000000018*cm",
+					"shift_z": "-16.200000000000003*cm"
+				}
+			},
+			{
+				"type": "Prism",
+				"name": "ElectrodeRing1",
+				"parent": "XenonVeto",
+				"parameters": {
+					"soliname": "ElectrodeRing1Solid",
+					"logivol": "ElectrodeRing1Log",
+					"physvol": "ElectrodeRing1",
+					"outer_radius": "15.0*cm",
+					"inner_radius": "14*cm",
+					"sides": "12",
+					"material": "SS304LSteel",
+					"surface": "0",
+					"height": "0.5*cm",
+					"shift_z": "-13.2*cm"
+				}
+			},
+			{
+				"type": "Prism",
+				"name": "ElectrodeRing2",
+				"parent": "XenonVeto",
+				"parameters": {
+					"soliname": "ElectrodeRing2Solid",
+					"logivol": "ElectrodeRing2Log",
+					"physvol": "ElectrodeRing2",
+					"outer_radius": "15.0*cm",
+					"inner_radius": "14*cm",
+					"sides": "12",
+					"material": "SS304LSteel",
+					"surface": "0",
+					"height": "0.5*cm",
+					"shift_z": "10.5*cm"
+				}
+			},
+			{
+				"type": "Prism",
+				"name": "ElectrodeRing3",
+				"parent": "XenonVeto",
+				"parameters": {
+					"soliname": "ElectrodeRing3Solid",
+					"logivol": "ElectrodeRing3Log",
+					"physvol": "ElectrodeRing3",
+					"outer_radius": "15.0*cm",
+					"inner_radius": "14*cm",
+					"sides": "12",
+					"material": "SS304LSteel",
+					"surface": "0",
+					"height": "0.5*cm",
+					"shift_z": "11.5*cm"
+				}
+			}
+		]
+	},
+	"physics": {
+		"name": "PandaXPhysics",
+		"parameters": {
+			"cutlength": "0.1*mm"
+		}
+	},
+	"generator": {
+		"name": "MuonGenerator",
+		"parameters": {
+			"shielding_x": "1000*cm",
+			"shielding_z": "1000*cm",
+			"E_low": "0.106*GeV"
+		}
+	},
+	"analysis": {
+		"name": "PandaXAnalysis",
+		"parameters": {
+			"EnableEnergyDeposition": 1,
+			"EnableSurfaceFlux": 0,
+			"EnablePrimaryParticle": 1,
+			"SaveNullEvents": 0,
+			"EnableDecayChainSplitting": 1,
+			"ChainSplittingLifeTime": "400*us",
+			"UserSeed": "0",
+			"GetGeoMass": 0
+		}
+	}
+}

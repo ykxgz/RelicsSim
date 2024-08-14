@@ -1,0 +1,13 @@
+.#*
+\#*
+*~
+*.o
+*.a
+*.so
+build/
+Makefile
+.*
+!.gitignore
+doc/
+include/version.hh
+__pycache__
